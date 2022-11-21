@@ -2,9 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-option go_package = "proto/product";
+option go_package = "social_graph";
 
-service ProfileService {
+service SocialGraphService {
   rpc RegisterUser(User) returns (google.protobuf.Empty) {}
   rpc RegisterBusinessUser(BusinessUser) returns (google.protobuf.Empty) {}
 }
