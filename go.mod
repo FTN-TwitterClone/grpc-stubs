@@ -1,4 +1,4 @@
-module grpc-stubs
+module github.com/FTN-TwitterClone/grpc-stubs
 
 go 1.18
 
