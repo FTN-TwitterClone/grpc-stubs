@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-option go_package = "social_graph";
+option go_package = "proto/social_graph";
 
 service SocialGraphService {
   rpc RegisterUser(User) returns (google.protobuf.Empty) {}
