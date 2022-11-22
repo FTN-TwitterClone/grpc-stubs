@@ -12,7 +12,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	users "proto/users"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -24,8 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProfileServiceClient interface {
-	RegisterUser(ctx context.Context, in *users.User, opts ...grpc.CallOption) (*empty.Empty, error)
-	RegisterBusinessUser(ctx context.Context, in *users.BusinessUser, opts ...grpc.CallOption) (*empty.Empty, error)
+	RegisterUser(ctx context.Context, in *ProfileUser, opts ...grpc.CallOption) (*empty.Empty, error)
+	RegisterBusinessUser(ctx context.Context, in *ProfileBusinessUser, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type profileServiceClient struct {
@@ -36,7 +35,7 @@ func NewProfileServiceClient(cc grpc.ClientConnInterface) ProfileServiceClient {
 	return &profileServiceClient{cc}
 }
 
-func (c *profileServiceClient) RegisterUser(ctx context.Context, in *users.User, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *profileServiceClient) RegisterUser(ctx context.Context, in *ProfileUser, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/profile.ProfileService/RegisterUser", in, out, opts...)
 	if err != nil {
@@ -45,7 +44,7 @@ func (c *profileServiceClient) RegisterUser(ctx context.Context, in *users.User,
 	return out, nil
 }
 
-func (c *profileServiceClient) RegisterBusinessUser(ctx context.Context, in *users.BusinessUser, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *profileServiceClient) RegisterBusinessUser(ctx context.Context, in *ProfileBusinessUser, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/profile.ProfileService/RegisterBusinessUser", in, out, opts...)
 	if err != nil {
@@ -58,8 +57,8 @@ func (c *profileServiceClient) RegisterBusinessUser(ctx context.Context, in *use
 // All implementations must embed UnimplementedProfileServiceServer
 // for forward compatibility
 type ProfileServiceServer interface {
-	RegisterUser(context.Context, *users.User) (*empty.Empty, error)
-	RegisterBusinessUser(context.Context, *users.BusinessUser) (*empty.Empty, error)
+	RegisterUser(context.Context, *ProfileUser) (*empty.Empty, error)
+	RegisterBusinessUser(context.Context, *ProfileBusinessUser) (*empty.Empty, error)
 	mustEmbedUnimplementedProfileServiceServer()
 }
 
@@ -67,10 +66,10 @@ type ProfileServiceServer interface {
 type UnimplementedProfileServiceServer struct {
 }
 
-func (UnimplementedProfileServiceServer) RegisterUser(context.Context, *users.User) (*empty.Empty, error) {
+func (UnimplementedProfileServiceServer) RegisterUser(context.Context, *ProfileUser) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
-func (UnimplementedProfileServiceServer) RegisterBusinessUser(context.Context, *users.BusinessUser) (*empty.Empty, error) {
+func (UnimplementedProfileServiceServer) RegisterBusinessUser(context.Context, *ProfileBusinessUser) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterBusinessUser not implemented")
 }
 func (UnimplementedProfileServiceServer) mustEmbedUnimplementedProfileServiceServer() {}
@@ -87,7 +86,7 @@ func RegisterProfileServiceServer(s grpc.ServiceRegistrar, srv ProfileServiceSer
 }
 
 func _ProfileService_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(users.User)
+	in := new(ProfileUser)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -99,13 +98,13 @@ func _ProfileService_RegisterUser_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/profile.ProfileService/RegisterUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileServiceServer).RegisterUser(ctx, req.(*users.User))
+		return srv.(ProfileServiceServer).RegisterUser(ctx, req.(*ProfileUser))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _ProfileService_RegisterBusinessUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(users.BusinessUser)
+	in := new(ProfileBusinessUser)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -117,7 +116,7 @@ func _ProfileService_RegisterBusinessUser_Handler(srv interface{}, ctx context.C
 		FullMethod: "/profile.ProfileService/RegisterBusinessUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileServiceServer).RegisterBusinessUser(ctx, req.(*users.BusinessUser))
+		return srv.(ProfileServiceServer).RegisterBusinessUser(ctx, req.(*ProfileBusinessUser))
 	}
 	return interceptor(ctx, in, info, handler)
 }

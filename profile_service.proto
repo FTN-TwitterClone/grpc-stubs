@@ -3,11 +3,26 @@ syntax = "proto3";
 package profile;
 
 import "google/protobuf/empty.proto";
-import "users.proto";
 
 option go_package = "proto/profile";
 
 service ProfileService {
-  rpc RegisterUser(users.User) returns (google.protobuf.Empty) {}
-  rpc RegisterBusinessUser(users.BusinessUser) returns (google.protobuf.Empty) {}
+  rpc RegisterUser(ProfileUser) returns (google.protobuf.Empty) {}
+  rpc RegisterBusinessUser(ProfileBusinessUser) returns (google.protobuf.Empty) {}
+}
+
+message ProfileUser {
+  string Username = 1;
+  string Email = 2;
+  string FirstName = 3;
+  string LastName = 4;
+  string Town = 5;
+  string Gender = 6;
+}
+
+message ProfileBusinessUser {
+  string Username = 1;
+  string Email = 2;
+  string Website = 3;
+  string CompanyName = 4;
 }
