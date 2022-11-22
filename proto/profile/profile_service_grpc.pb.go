@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.6.1
-// source: profile/social_graph_service.proto
+// source: profile_service.proto
 
 package profile
 
@@ -12,6 +12,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	users "proto/users"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -23,8 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProfileServiceClient interface {
-	RegisterUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*empty.Empty, error)
-	RegisterBusinessUser(ctx context.Context, in *BusinessUser, opts ...grpc.CallOption) (*empty.Empty, error)
+	RegisterUser(ctx context.Context, in *users.User, opts ...grpc.CallOption) (*empty.Empty, error)
+	RegisterBusinessUser(ctx context.Context, in *users.BusinessUser, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type profileServiceClient struct {
@@ -35,18 +36,18 @@ func NewProfileServiceClient(cc grpc.ClientConnInterface) ProfileServiceClient {
 	return &profileServiceClient{cc}
 }
 
-func (c *profileServiceClient) RegisterUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *profileServiceClient) RegisterUser(ctx context.Context, in *users.User, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/ProfileService/RegisterUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/profile.ProfileService/RegisterUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *profileServiceClient) RegisterBusinessUser(ctx context.Context, in *BusinessUser, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *profileServiceClient) RegisterBusinessUser(ctx context.Context, in *users.BusinessUser, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/ProfileService/RegisterBusinessUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/profile.ProfileService/RegisterBusinessUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +58,8 @@ func (c *profileServiceClient) RegisterBusinessUser(ctx context.Context, in *Bus
 // All implementations must embed UnimplementedProfileServiceServer
 // for forward compatibility
 type ProfileServiceServer interface {
-	RegisterUser(context.Context, *User) (*empty.Empty, error)
-	RegisterBusinessUser(context.Context, *BusinessUser) (*empty.Empty, error)
+	RegisterUser(context.Context, *users.User) (*empty.Empty, error)
+	RegisterBusinessUser(context.Context, *users.BusinessUser) (*empty.Empty, error)
 	mustEmbedUnimplementedProfileServiceServer()
 }
 
@@ -66,10 +67,10 @@ type ProfileServiceServer interface {
 type UnimplementedProfileServiceServer struct {
 }
 
-func (UnimplementedProfileServiceServer) RegisterUser(context.Context, *User) (*empty.Empty, error) {
+func (UnimplementedProfileServiceServer) RegisterUser(context.Context, *users.User) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
-func (UnimplementedProfileServiceServer) RegisterBusinessUser(context.Context, *BusinessUser) (*empty.Empty, error) {
+func (UnimplementedProfileServiceServer) RegisterBusinessUser(context.Context, *users.BusinessUser) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterBusinessUser not implemented")
 }
 func (UnimplementedProfileServiceServer) mustEmbedUnimplementedProfileServiceServer() {}
@@ -86,7 +87,7 @@ func RegisterProfileServiceServer(s grpc.ServiceRegistrar, srv ProfileServiceSer
 }
 
 func _ProfileService_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
+	in := new(users.User)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -95,16 +96,16 @@ func _ProfileService_RegisterUser_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ProfileService/RegisterUser",
+		FullMethod: "/profile.ProfileService/RegisterUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileServiceServer).RegisterUser(ctx, req.(*User))
+		return srv.(ProfileServiceServer).RegisterUser(ctx, req.(*users.User))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _ProfileService_RegisterBusinessUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BusinessUser)
+	in := new(users.BusinessUser)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -113,10 +114,10 @@ func _ProfileService_RegisterBusinessUser_Handler(srv interface{}, ctx context.C
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ProfileService/RegisterBusinessUser",
+		FullMethod: "/profile.ProfileService/RegisterBusinessUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileServiceServer).RegisterBusinessUser(ctx, req.(*BusinessUser))
+		return srv.(ProfileServiceServer).RegisterBusinessUser(ctx, req.(*users.BusinessUser))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -125,7 +126,7 @@ func _ProfileService_RegisterBusinessUser_Handler(srv interface{}, ctx context.C
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProfileService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ProfileService",
+	ServiceName: "profile.ProfileService",
 	HandlerType: (*ProfileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -138,5 +139,5 @@ var ProfileService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "profile/social_graph_service.proto",
+	Metadata: "profile_service.proto",
 }

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package profile;
+
+import "google/protobuf/empty.proto";
+import "users.proto";
+
+option go_package = "proto/profile";
+
+service ProfileService {
+  rpc RegisterUser(users.User) returns (google.protobuf.Empty) {}
+  rpc RegisterBusinessUser(users.BusinessUser) returns (google.protobuf.Empty) {}
+}

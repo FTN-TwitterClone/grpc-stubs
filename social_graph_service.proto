@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package social_graph;
+
+import "google/protobuf/empty.proto";
+import "users.proto";
+
+option go_package = "proto/social_graph";
+
+service SocialGraphService {
+  rpc RegisterUser(users.User) returns (google.protobuf.Empty) {}
+  rpc RegisterBusinessUser(users.BusinessUser) returns (google.protobuf.Empty) {}
+}
