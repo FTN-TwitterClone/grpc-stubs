@@ -8,7 +8,7 @@ option go_package = "proto/social_graph";
 
 service SocialGraphService {
   rpc RegisterUser(SocialGraphUser) returns (google.protobuf.Empty) {}
-  rpc RegisterBusinessUser(SocialGraphUser) returns (google.protobuf.Empty) {}
+  rpc RegisterBusinessUser(SocialGraphBusinessUser) returns (google.protobuf.Empty) {}
 }
 
 message SocialGraphUser {

@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SocialGraphServiceClient interface {
 	RegisterUser(ctx context.Context, in *SocialGraphUser, opts ...grpc.CallOption) (*empty.Empty, error)
-	RegisterBusinessUser(ctx context.Context, in *SocialGraphUser, opts ...grpc.CallOption) (*empty.Empty, error)
+	RegisterBusinessUser(ctx context.Context, in *SocialGraphBusinessUser, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type socialGraphServiceClient struct {
@@ -44,7 +44,7 @@ func (c *socialGraphServiceClient) RegisterUser(ctx context.Context, in *SocialG
 	return out, nil
 }
 
-func (c *socialGraphServiceClient) RegisterBusinessUser(ctx context.Context, in *SocialGraphUser, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *socialGraphServiceClient) RegisterBusinessUser(ctx context.Context, in *SocialGraphBusinessUser, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/social_graph.SocialGraphService/RegisterBusinessUser", in, out, opts...)
 	if err != nil {
@@ -58,7 +58,7 @@ func (c *socialGraphServiceClient) RegisterBusinessUser(ctx context.Context, in 
 // for forward compatibility
 type SocialGraphServiceServer interface {
 	RegisterUser(context.Context, *SocialGraphUser) (*empty.Empty, error)
-	RegisterBusinessUser(context.Context, *SocialGraphUser) (*empty.Empty, error)
+	RegisterBusinessUser(context.Context, *SocialGraphBusinessUser) (*empty.Empty, error)
 	mustEmbedUnimplementedSocialGraphServiceServer()
 }
 
@@ -69,7 +69,7 @@ type UnimplementedSocialGraphServiceServer struct {
 func (UnimplementedSocialGraphServiceServer) RegisterUser(context.Context, *SocialGraphUser) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
-func (UnimplementedSocialGraphServiceServer) RegisterBusinessUser(context.Context, *SocialGraphUser) (*empty.Empty, error) {
+func (UnimplementedSocialGraphServiceServer) RegisterBusinessUser(context.Context, *SocialGraphBusinessUser) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterBusinessUser not implemented")
 }
 func (UnimplementedSocialGraphServiceServer) mustEmbedUnimplementedSocialGraphServiceServer() {}
@@ -104,7 +104,7 @@ func _SocialGraphService_RegisterUser_Handler(srv interface{}, ctx context.Conte
 }
 
 func _SocialGraphService_RegisterBusinessUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SocialGraphUser)
+	in := new(SocialGraphBusinessUser)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func _SocialGraphService_RegisterBusinessUser_Handler(srv interface{}, ctx conte
 		FullMethod: "/social_graph.SocialGraphService/RegisterBusinessUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SocialGraphServiceServer).RegisterBusinessUser(ctx, req.(*SocialGraphUser))
+		return srv.(SocialGraphServiceServer).RegisterBusinessUser(ctx, req.(*SocialGraphBusinessUser))
 	}
 	return interceptor(ctx, in, info, handler)
 }
