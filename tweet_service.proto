@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package tweet;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "proto/tweet";
+
+service TweetService {
+  rpc UpdateFeed(User) returns (google.protobuf.Empty) {}
+}
+
+message User {
+  string Username = 1;
+}
