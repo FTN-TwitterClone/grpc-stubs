@@ -9,6 +9,8 @@ option go_package = "proto/social_graph";
 service SocialGraphService {
   rpc RegisterUser(SocialGraphUser) returns (google.protobuf.Empty) {}
   rpc RegisterBusinessUser(SocialGraphBusinessUser) returns (google.protobuf.Empty) {}
+  rpc CheckVisibility(SocialGraphUsername) returns (SocialGraphVisibilityUserResponse) {}
+  rpc GetMyFollowers(google.protobuf.Empty) returns (SocialGraphFollowers) {}
 }
 
 message SocialGraphUser {
@@ -25,4 +27,14 @@ message SocialGraphBusinessUser {
   string Email = 2;
   string Website = 3;
   string CompanyName = 4;
+}
+
+message SocialGraphVisibilityUserResponse{
+  bool Visibility = 1;
+}
+message SocialGraphFollowers{
+  repeated SocialGraphUsername usernames = 1;
+}
+message SocialGraphUsername{
+  string Username = 1;
 }
