@@ -11,6 +11,7 @@ service SocialGraphService {
   rpc RegisterBusinessUser(SocialGraphBusinessUser) returns (google.protobuf.Empty) {}
   rpc CheckVisibility(SocialGraphUsername) returns (SocialGraphVisibilityUserResponse) {}
   rpc GetMyFollowers(google.protobuf.Empty) returns (SocialGraphFollowers) {}
+  rpc SocialGraphUpdateUser(SocialGraphUpdatedUser) returns (google.protobuf.Empty) {}
 }
 
 message SocialGraphUser {
@@ -37,4 +38,7 @@ message SocialGraphFollowers{
 }
 message SocialGraphUsername{
   string Username = 1;
+}
+message SocialGraphUpdatedUser{
+  bool Private = 1;
 }

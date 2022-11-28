@@ -27,6 +27,7 @@ type SocialGraphServiceClient interface {
 	RegisterBusinessUser(ctx context.Context, in *SocialGraphBusinessUser, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	CheckVisibility(ctx context.Context, in *SocialGraphUsername, opts ...grpc.CallOption) (*SocialGraphVisibilityUserResponse, error)
 	GetMyFollowers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SocialGraphFollowers, error)
+	SocialGraphUpdateUser(ctx context.Context, in *SocialGraphUpdatedUser, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type socialGraphServiceClient struct {
@@ -73,6 +74,15 @@ func (c *socialGraphServiceClient) GetMyFollowers(ctx context.Context, in *empty
 	return out, nil
 }
 
+func (c *socialGraphServiceClient) SocialGraphUpdateUser(ctx context.Context, in *SocialGraphUpdatedUser, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/social_graph.SocialGraphService/SocialGraphUpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SocialGraphServiceServer is the server API for SocialGraphService service.
 // All implementations must embed UnimplementedSocialGraphServiceServer
 // for forward compatibility
@@ -81,6 +91,7 @@ type SocialGraphServiceServer interface {
 	RegisterBusinessUser(context.Context, *SocialGraphBusinessUser) (*emptypb.Empty, error)
 	CheckVisibility(context.Context, *SocialGraphUsername) (*SocialGraphVisibilityUserResponse, error)
 	GetMyFollowers(context.Context, *emptypb.Empty) (*SocialGraphFollowers, error)
+	SocialGraphUpdateUser(context.Context, *SocialGraphUpdatedUser) (*emptypb.Empty, error)
 	mustEmbedUnimplementedSocialGraphServiceServer()
 }
 
@@ -99,6 +110,9 @@ func (UnimplementedSocialGraphServiceServer) CheckVisibility(context.Context, *S
 }
 func (UnimplementedSocialGraphServiceServer) GetMyFollowers(context.Context, *emptypb.Empty) (*SocialGraphFollowers, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMyFollowers not implemented")
+}
+func (UnimplementedSocialGraphServiceServer) SocialGraphUpdateUser(context.Context, *SocialGraphUpdatedUser) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SocialGraphUpdateUser not implemented")
 }
 func (UnimplementedSocialGraphServiceServer) mustEmbedUnimplementedSocialGraphServiceServer() {}
 
@@ -185,6 +199,24 @@ func _SocialGraphService_GetMyFollowers_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SocialGraphService_SocialGraphUpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SocialGraphUpdatedUser)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SocialGraphServiceServer).SocialGraphUpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/social_graph.SocialGraphService/SocialGraphUpdateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SocialGraphServiceServer).SocialGraphUpdateUser(ctx, req.(*SocialGraphUpdatedUser))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SocialGraphService_ServiceDesc is the grpc.ServiceDesc for SocialGraphService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -207,6 +239,10 @@ var SocialGraphService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMyFollowers",
 			Handler:    _SocialGraphService_GetMyFollowers_Handler,
+		},
+		{
+			MethodName: "SocialGraphUpdateUser",
+			Handler:    _SocialGraphService_SocialGraphUpdateUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
