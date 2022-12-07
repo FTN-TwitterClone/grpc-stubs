@@ -12,6 +12,7 @@ service SocialGraphService {
   rpc CheckVisibility(SocialGraphUsername) returns (SocialGraphVisibilityUserResponse) {}
   rpc GetMyFollowers(google.protobuf.Empty) returns (SocialGraphFollowers) {}
   rpc SocialGraphUpdateUser(SocialGraphUpdatedUser) returns (google.protobuf.Empty) {}
+  rpc GetTargetGroupUser(SocialGraphTargetUsersGroup) returns (SocialGraphTargetUsers) {}
 }
 
 message SocialGraphUser {
@@ -35,6 +36,15 @@ message SocialGraphVisibilityUserResponse{
 }
 message SocialGraphFollowers{
   repeated SocialGraphUsername usernames = 1;
+}
+message SocialGraphTargetUsers{
+  repeated SocialGraphUsername usernames = 1;
+}
+message SocialGraphTargetUsersGroup{
+  string Town = 1;
+  string Gender = 2;
+  int32  MinAge = 3;
+  int32  MaxAge = 4;
 }
 message SocialGraphUsername{
   string Username = 1;

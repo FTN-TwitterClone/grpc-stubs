@@ -16,8 +16,8 @@ message AdInfo {
   string TweetId = 1;
   string PostedBy = 2;
   string Town = 3;
-  string MinAge = 4;
-  string MaxAge = 5;
+  int32  MinAge = 4;
+  int32  MaxAge = 5;
   string Gender = 6;
 }
 
