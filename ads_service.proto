@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package ads;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "proto/ads";
+
+service AdsService {
+  rpc SaveAdInfo(AdInfo) returns (google.protobuf.Empty) {}
+  rpc SaveLikeEvent(LikeEvent) returns (google.protobuf.Empty) {}
+  rpc SaveUnlikeEvent(UnlikeEvent) returns (google.protobuf.Empty) {}
+}
+
+message AdInfo {
+  string TweetId = 1;
+  string PostedBy = 2;
+  string Town = 3;
+  string MinAge = 4;
+  string MaxAge = 5;
+  string Gender = 6;
+}
+
+message LikeEvent {
+  string TweetId = 1;
+  string Username = 2;
+}
+
+message UnlikeEvent {
+  string TweetId = 1;
+  string Username = 2;
+}
