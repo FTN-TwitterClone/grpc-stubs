@@ -7,9 +7,10 @@ import "google/protobuf/empty.proto";
 option go_package = "proto/tweet";
 
 service TweetService {
-  rpc UpdateFeed(User) returns (google.protobuf.Empty) {}
+  rpc UpdateFeed(Request) returns (google.protobuf.Empty) {}
 }
 
-message User {
-  string Username = 1;
+message Request {
+  string From = 1;
+  string To = 2;
 }

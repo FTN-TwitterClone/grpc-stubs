@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TweetServiceClient interface {
-	UpdateFeed(ctx context.Context, in *User, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateFeed(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type tweetServiceClient struct {
@@ -34,7 +34,7 @@ func NewTweetServiceClient(cc grpc.ClientConnInterface) TweetServiceClient {
 	return &tweetServiceClient{cc}
 }
 
-func (c *tweetServiceClient) UpdateFeed(ctx context.Context, in *User, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *tweetServiceClient) UpdateFeed(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/tweet.TweetService/UpdateFeed", in, out, opts...)
 	if err != nil {
@@ -47,7 +47,7 @@ func (c *tweetServiceClient) UpdateFeed(ctx context.Context, in *User, opts ...g
 // All implementations must embed UnimplementedTweetServiceServer
 // for forward compatibility
 type TweetServiceServer interface {
-	UpdateFeed(context.Context, *User) (*emptypb.Empty, error)
+	UpdateFeed(context.Context, *Request) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTweetServiceServer()
 }
 
@@ -55,7 +55,7 @@ type TweetServiceServer interface {
 type UnimplementedTweetServiceServer struct {
 }
 
-func (UnimplementedTweetServiceServer) UpdateFeed(context.Context, *User) (*emptypb.Empty, error) {
+func (UnimplementedTweetServiceServer) UpdateFeed(context.Context, *Request) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateFeed not implemented")
 }
 func (UnimplementedTweetServiceServer) mustEmbedUnimplementedTweetServiceServer() {}
@@ -72,7 +72,7 @@ func RegisterTweetServiceServer(s grpc.ServiceRegistrar, srv TweetServiceServer)
 }
 
 func _TweetService_UpdateFeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
+	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func _TweetService_UpdateFeed_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/tweet.TweetService/UpdateFeed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TweetServiceServer).UpdateFeed(ctx, req.(*User))
+		return srv.(TweetServiceServer).UpdateFeed(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
