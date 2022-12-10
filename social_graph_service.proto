@@ -22,6 +22,7 @@ message SocialGraphUser {
   string LastName = 4;
   string Town = 5;
   string Gender = 6;
+  int32  YearOfBirth = 7;
 }
 
 message SocialGraphBusinessUser {
